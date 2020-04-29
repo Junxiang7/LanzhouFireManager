@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "OperatorLog";
+}
+
+
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/My97DatePickerBeta/WdatePicker.js")"></script>
+}
+<form method="get" action="/SysTools/OperatorLog">
+    <input type="text" name="OperatorDate" id="D_Date" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" value="@ViewBag.DataLog_Date" />
+    <input type="submit" value="查询" datatype="1" class="editadmin" />
+</form>
+
+<span>操作日志</span>
+<pre>
+@ViewBag.DataLog
+</pre>
+

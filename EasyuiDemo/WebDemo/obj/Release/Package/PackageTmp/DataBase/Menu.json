@@ -1,0 +1,119 @@
+{
+  "Sys": {
+    "menuname": "系统",
+    "menus": [
+      {
+        "menuname": "首页",
+        "url": "/",
+        "IsShow": false,
+        "IsDefutle": true
+      },
+      {
+        "menuname": "首页",
+        "url": "/home/Index",
+        "IsShow": false,
+        "IsDefutle": true
+      }
+    ]
+  },
+  "SysManager": {
+    "menuname": "系统管理",
+    "menus": [
+      {
+        "menuname": "用户管理",
+        "url": "/SysManager/UserList",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "用户数据",
+        "url": "/SysManager/UserListJson",
+        "IsShow": false,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "用户设置",
+        "url": "/SysManager/AddOrEditUser",
+        "IsShow": false,
+        "IsDefutle": false
+      }
+    ]
+  },
+  "SysTools": {
+    "menuname": "工具",
+    "menus": [
+      {
+        "menuname": "操作日志",
+        "url": "/SysTools/OperatorLog",
+        "IsShow": true,
+        "IsDefutle": false
+      }
+    ]
+  },
+  "Order": {
+    "menuname": "订单管理",
+    "menus": [
+      {
+        "menuname": "第一工站",
+        "url": "/OrderManager/FirstWorkstation",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "第二工站",
+        "url": "/OrderManager/SecondWorkstation",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "第三工站",
+        "url": "/OrderManager/ThirdWorkstation",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "第四工站",
+        "url": "/OrderManager/FourthWorkstation",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "获取订单管理数据",
+        "url": "/OrderManager/WorkstationOrder",
+        "IsShow": false,
+        "IsDefutle": false
+
+      },
+      {
+        "menuname": "订单查询",
+        "url": "/OrderManager/SelectOrder",
+        "IsShow": true,
+        "IsDefutle": false
+
+      },
+      {
+        "menuname": "客户录入",
+        "url": "/Customer/CustomerInput",
+        "IsShow": true,
+        "IsDefutle": false
+      },
+      {
+        "menuname": "客户详情",
+        "url": "/Customer/UserListJson",
+        "IsShow": false,
+        "IsDefutle": false
+      }
+    ]
+  },
+  "System": {
+    "menuname": "系统设置",
+    "menus": [
+      {
+        "menuname": "统计",
+        "url": "/SystemManager/FirstWorkstation",
+        "IsShow": true,
+        "IsDefutle": false
+      }
+    ]
+  }
+}

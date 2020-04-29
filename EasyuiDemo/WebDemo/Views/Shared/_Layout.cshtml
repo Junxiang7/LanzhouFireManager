@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 消防工具</title>                    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>            
+
+    <link href="~/Scripts/jquery-easyui/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery-easyui/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-easyui/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+
+
+    <style type="text/css">
+        /*公共样式部分*/
+        html, body, div, p, ul, li, dt, dd, h1, h2, h3, h4, h5, h6,
+        form, input, select, button, textarea, iframe, table,
+        th, td { margin: 0; padding: 0; }
+        img { boder: none; vertical-align: center; }
+        ul, li { list-style-type: none; margin: 0px; padding: 0px; }
+            ul li a { float: left; }
+        h1, h2, h3, h4, h5, h6 { font-size: 14px; }
+        body, input, select, button, textarea { font-size: 14px; font-family: "宋体"; }
+        button { cursor: pointer; }
+        i, em, cite { font-style: normal; }
+        aside section, .body { display: block; width: 1000px; margin: 0 auto; }
+    </style>
+    @RenderSection("HeadCss", required: false)
+    @RenderSection("HeadScript", required: false)
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("EndScript", required: false)
+</body>
+</html>

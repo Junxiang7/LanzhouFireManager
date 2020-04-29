@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "SearchInfo";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SearchInfo.js?132411389"></script>
+<link type="text/css" href="~/Content/Login/css/login.css" rel="stylesheet" />
+<link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+<link href="~/Content/login/css/loginNavigation.css" rel="stylesheet" />
+<link href="~/Content/login/css/SearchInfo.css" rel="stylesheet" />
+
+
+<div class="top">
+    <h1 class="login-logo" href="#">甘肃兴陇消防灭火器维修充检系统</h1>
+    <div>
+        <ul>
+            <li><a  href="~/Home/Login">首页</a></li>
+            <li><a  href="~/Search/SearchInfo">订单编码查询</a></li>
+        </ul>
+    </div>
+
+</div>
+<div class="ex_title">
+    <span class="spanh1">甘肃兴陇消防灭火器维修充检订单编码查询</span>
+    <font id="allcompanytel" class="tel-icon" title="拨打系统电话">0931-8555590</font>
+    <a target="_blank" rel="nofollow" id="allcompanyurl" class="url-icon" title="访问系统" href="http://www.gsxlxf.com/">http://www.gsxlxf.com/</a>
+</div>
+<div class="search-box">
+    <div class="mb10px">
+        <input name="postid" type="text" class="inp-search inp-default input-border" id="postid" placeholder="请输入您要查询的订单编码" autocomplete="off" value="" maxlength="100">
+        <a id="query" class="btn-default btn-search query-border"></a>
+    </div>
+</div>
+<div id="example" class="font14px mt10px">例如，您可以输入：<a id="useTips">123456789</a></div>
+
+<div class="info">
+    <span id="sp_msg" style="font-size:large;font-weight:800;"></span>
+
+    <HR style=FILTER: alpha(opacity=100,finishopacity =0,style =3) width=100% color=#987cb9 SIZE=3 />
+    <span id="sp_content" style="font-size:initial;font-weight:600;"></span>
+    <table id="tab_Data" class="table"></table>
+</div>
+<div class="login-product">
+    <fieldset class="login-product-title clearfix">
+        <legend>产品中心</legend>
+        <div class="tableDiv">
+            <dl class="">
+                <dt>企业资质</dt>
+                <dd>
+                    <ul>
+                        <li>从事消防工程安装、联动、调试、施工</li>
+                        <li>从事专业的消防工程维保</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class="">
+                <dt>业务领域</dt>
+                <dd>
+                    <ul>
+                        <li>从事消防专业技能培训</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class="last">
+                <dt>业绩</dt>
+                <dd>
+                    <ul>
+                        <li>经销维修各种消防员防护器材和救援器材、消防报警、水喷淋设备等各类消防器材</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </fieldset>
+</div>
+
+
+

@@ -1,0 +1,119 @@
+﻿body {
+}
+
+.top {
+    width: 100%;
+    height: 60px;
+    margin-top: 5px;
+    overflow: visible;
+    background: #cf86d0;
+    clear: both;
+    position: relative;
+}
+
+    .top ul {
+        /* 清除ul标签的默认样式 */
+        width: auto; /*宽度也改为自动*/
+        list-style-type: none;
+        white-space: nowrap;
+        overflow: hidden;
+        /* margin-top: 0;          */
+        padding: 0;
+        margin-left:50%;
+    }
+
+    .top li {
+        float: left; /* 使li内容横向浮动，即横向排列  */
+        margin-right: 2%; /* 两个li之间的距离*/
+        position: relative;
+        overflow: hidden;
+    }
+
+        .top li a {
+
+            /* 设置链接内容显示的格式*/
+            display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+            color: white;
+            text-align: center;
+            padding: 18px;
+            overflow: hidden;
+            text-decoration: none; /* 去除下划线 */
+        }
+
+            .top li a:hover {
+                /* 鼠标选中时背景变为黑色 */
+                background-color: #885389;
+            }
+
+    .top ul li ul {
+        /* 设置二级菜单 */
+        margin-left: -0.2px;
+        background: rgb(189, 181, 181);
+        position: relative;
+        display: none; /* 默认隐藏二级菜单的内容 */
+    }
+
+        .top ul li ul li {
+            /* 二级菜单li内容的显示 */
+            float: none;
+            text-align: center;
+        }
+
+    .top ul li:hover ul {
+        /* 鼠标选中二级菜单内容时 */
+        display: block;
+    }
+
+.table {
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 40px;
+}
+
+    .table thead tr {
+        height: 40px !important;
+        line-height: 40px !important;
+    }
+
+    .table > thead > tr > th {
+        background: #F1F1F1;
+        font-weight: 500;
+    }
+
+    .table > thead > tr:hover {
+        color: black;
+    }
+
+    .table thead tr th {
+        text-align: center !important;
+        vertical-align: text-top !important;
+    }
+
+    .table tr {
+        height: 60px;
+        border-bottom: 1px solid #DCDCDC;
+    }
+
+.ie7 .table tr {
+    height: 80px;
+}
+
+.table th {
+    font-weight: 100;
+    font-weight: bolder;
+    border-bottom: 1px solid #E7E7E7;
+    border-top: 1px solid #E7E7E7;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle !important;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.table tr:hover {
+    color: #FD8702;
+}

@@ -1,0 +1,82 @@
+﻿@using WebDemo.Lib;
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "客户信息";
+    var AllAuthList = (Dictionary<string, MenuModel>)ViewBag.AllAuthList;
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/My97DatePickerBeta/WdatePicker.js")"></script>
+    <script src="@Url.Content("/Scripts/CustomerInput.js?v=1.112")"></script>
+}
+<style type="text/css">
+    .contenttable td {
+        padding: 3px;
+    }
+
+    .contenttable label {
+        cursor: pointer;
+    }
+
+    #D_Ip {
+        width: 200px;
+        height: 100px;
+        max-width: 200px;
+        max-height: 100px;
+        resize: none;
+    }
+</style>
+
+<div style="margin-left:10px;margin-top:15px;">
+    公司名称:  <input type="text" id="Q_CusCompany" />
+    <input type="button" value="查询" id="Q_Query" class="easyui-linkbutton" style="width:80px" />
+
+    <input value="添加客户" type="button" id="Add_User" class="easyui-linkbutton" style="width:80px" />
+</div>
+<div style="margin-top:25px">
+    <table class="easyui-datagrid" id="DataList" style="width:100%; " data-options="singleSelect:true,collapsible:true,url:'/Customer/UserListJson',method:'post',rownumbers:true,pagination:true">
+        <thead>
+            <tr>
+                <th data-options="field:'CreateTime',width:fixWidth(0.15),align:'center'">添加时间</th>
+                <th data-options="field:'CusCompany',width:fixWidth(0.15),align:'center'">客户公司名称</th>
+                <th data-options="field:'CusLinkMan',width:fixWidth(0.1),align:'center'">客户联系人</th>
+                <th data-options="field:'CusLinkTel',width:fixWidth(0.15),align:'center'">客户电话号码</th>
+                <th data-options="field:'CusLinkPhone',width:fixWidth(0.15),align:'center'">客户手机号</th>
+                <th data-options="field:'CusId',width:fixWidth(0.15),align:'center',formatter:EditData">操作</th>
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+
+<div id="BuyerAll" class="easyui-dialog" style="" data-options="closed:true,title:'添加客户',width:'550',height:'150' ,model:true,resizable:false">
+    <table class="contenttable" style="width:500px;  margin:auto;">
+        <tr>
+            <td>
+                <span>&nbsp;客户公司名称:</span>
+                <input type="hidden" id="D_CusId" />
+                <input type="text" id="D_CusCompany" />
+            </td>
+            <td>
+                <span>客户联系人:</span>
+                <input type="text" id="D_CusLinkMan" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>客户电话号码:</span>
+                <input type="text" id="D_CusLinkTel" />
+            </td>
+            <td>
+                <span>客户手机号:</span>
+                <input type="text" id="D_CusLinkPhone" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="button" id="Save_btn" value="保存" style="width:60px; height:30px; line-height:30px;" /></td>
+        </tr>
+    </table>
+
+</div>
+
+

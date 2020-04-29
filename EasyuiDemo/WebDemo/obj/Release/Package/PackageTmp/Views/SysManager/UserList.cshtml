@@ -1,0 +1,394 @@
+﻿@using WebDemo.Lib;
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "账号信息";
+    var AllAuthList = (Dictionary<string, MenuModel>)ViewBag.AllAuthList;
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/My97DatePickerBeta/WdatePicker.js")"></script>
+    <link href="@Url.Content("/Content/zTreeStyle/zTreeStyle.css")" rel="stylesheet" />
+    <script src="@Url.Content("/Scripts/ztree/jquery.ztree.core.js")"></script>
+    <script src="@Url.Content("/Scripts/ztree/jquery.ztree.excheck.js")"></script>
+}
+<style type="text/css">
+    .contenttable td {
+        padding: 3px;
+    }
+
+    .contenttable label {
+        cursor: pointer;
+    }
+
+    #D_Ip {
+        width: 200px;
+        height: 100px;
+        max-width: 200px;
+        max-height: 100px;
+        resize: none;
+    }
+</style>
+
+<div style="margin-left:10px;margin-top:15px;">
+    帐号: <input type="text" id="Q_UserName" />
+    <input type="button" value="查询" id="Q_Query" class="easyui-linkbutton" style="width:80px" />
+    <input value="添加" type="button" id="Add_User" class="easyui-linkbutton" style="width:80px" />
+</div>
+<div style="margin-top:25px">
+    <table class="easyui-datagrid" id="DataList" style="width:100%; " data-options="singleSelect:true,collapsible:true,url:'/SysManager/UserListJson',method:'post',rownumbers:true,pagination:true">
+        <thead>
+            <tr>
+                <th data-options="field:'Account',width:fixWidth(0.15),align:'center'">账号</th>
+                <th data-options="field:'AccountName',width:fixWidth(0.15),align:'center'">姓名</th>
+                <th data-options="field:'AccountStatusText',width:fixWidth(0.1),align:'center'">状态</th>
+                <th data-options="field:'lastTime',width:fixWidth(0.16),align:'center'">上次登录时间</th>
+                <th data-options="field:'LoginCount',width:fixWidth(0.05),align:'center'">登录次数</th>
+                <th data-options="field:'Id',width:fixWidth(0.18),align:'center',formatter:EditData">操作</th>
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+
+<div id="BuyerAll" class="easyui-dialog" style="" data-options="closed:true,title:'管理设置',width:'550',height:'150' ,model:true,resizable:false">
+    <table class="contenttable" style="width:500px;  margin:auto;">
+        <tr>
+            <td>
+                <span>&nbsp;账号:</span>
+                <input type="hidden" id="D_Id" />
+                <input type="text" id="D_UserName" />
+            </td>
+            <td>
+                <span>姓名:</span>
+                <input type="text" id="D_AccountName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>开始有效期:</span>
+                <input type="text" id="D_EffectiveTime_s" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />
+            </td>
+            <td>
+                <span>结束有效期:</span>
+                <input type="text" id="D_EffectiveTime_e" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="button" id="Save_btn" value="保存" style="width:60px; height:30px; line-height:30px;" /></td>
+        </tr>
+    </table>
+
+</div>
+
+<div id="Rolediv" class="easyui-dialog" style="" data-options="closed:true,title:'权限设置',width:'500',height:'680' ,model:true,resizable:false">
+    <table>
+        <tr>
+            <td style="text-align: left">
+                <ul id="tree" class="ztree"></ul>
+            </td>
+        </tr>
+        <tr><td colspan="2" align="center"><input type="button" id="Save_Role" value="保存" style="width:60px; height:30px; line-height:30px;" /><input type="hidden" id="R_Id" /></td> </tr>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    //百分比宽度
+    function fixWidth(percent) {
+        return (document.body.clientWidth - 5) * percent;
+    }
+    //用来格式化标签
+    //编辑菜单
+    function EditData(val, row, index) {
+        var str = "";
+        if (row.AccountStatus == 0) {
+            str += "<span style=\"color:red;cursor:pointer;\" class=\"Edit_Status\" DataType=\"1\" DataId=\"" + row.Id + "\">禁用</span>";
+        } else {
+            str += "<span style=\"color:green;cursor:pointer;\" class=\"Edit_Status\" DataType=\"0\" DataId=\"" + row.Id + "\">启用</span>";
+        }
+
+        //if (row.UnlockPwd == 0) {
+        //    str += "&nbsp;&nbsp;<span style=\"color:red;cursor:pointer;\" class=\"Edit_Unlock\" DataType=\"1\" DataId=\"" + row.Id + "\">锁定账号</span>";
+        //} else {
+        //    str += "&nbsp;&nbsp;<span style=\"color:green;cursor:pointer;\" class=\"Edit_Unlock\" DataType=\"0\" DataId=\"" + row.Id + "\">解锁账号</span>";
+        //}
+        str += "&nbsp;&nbsp;<span style=\"color:green;cursor:pointer;\" class=\"Edit_pwd\" DataType=\"0\" DataId=\"" + row.Id + "\">初始化密码</span>";
+        str += "&nbsp;&nbsp;<span style=\"color:blue;cursor:pointer;\" class=\"Edit_Data\"  RowId=\"" + index + "\">编辑</span>";
+        str += "&nbsp;&nbsp;<span style=\"color:blue;cursor:pointer;\" class=\"Edit_Role\"  DataId=\"" + row.Id + "\">权限</span>";
+        return str;
+    }
+    $(function () {
+        //重置
+        $("#Q_Reset").click(function () {
+            $("#Q_UserName").val("");
+            $('#DataList').datagrid('load', {
+                UserName: null,
+            });
+        });
+        //查询
+        $("#Q_Query").click(function () {
+            $('#DataList').datagrid('load', {
+                UserName: $('#Q_UserName').val(),
+            });
+        });
+        $(document).on("click", ".Edit_Status", function () {
+            var _id = $(this).attr("DataId");
+            var _datatype = $(this).attr("DataType");
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/AddOrEditUser",
+                data: { Id: _id, Status: _datatype, UpType: 1 },   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                },
+                success: function (data) {
+                    if (data == "添加成功" || data == "修改成功") {
+                        document.location.reload();
+                    }
+                    else {
+                        $.messager.alert('Warning', '操作出错:' + data);
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".Edit_Unlock", function () {
+            var _id = $(this).attr("DataId");
+            var _datatype = $(this).attr("DataType");
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/AddOrEditUser",
+                data: { Id: _id, Status: _datatype, UpType: 2 },   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                },
+                success: function (data) {
+                    if (data == "添加成功" || data == "修改成功") {
+                        document.location.reload();
+                    } else {
+                        $.messager.alert('Warning', '操作出错:' + data);
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".Edit_pwd", function () {
+            var _id = $(this).attr("DataId");
+            var _datatype = $(this).attr("DataType");
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/AddOrEditUser",
+                data: { Id: _id, Status: 1, UpType: 3 },   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                },
+                success: function (data) {
+                    if (data == "添加成功" || data == "修改成功") {
+                        document.location.reload();
+                    } else {
+                        $.messager.alert('Warning', '操作出错:' + data);
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".Edit_Data", function () {
+
+            var _index = $(this).attr("RowId");
+            $("#BuyerAll").show();
+            $("#BuyerAll").dialog("open");
+            //取消所有权限
+            //获取当前行对象
+            var rows = $('#DataList').datagrid('getRows')[_index];
+            $("#D_Id").val(rows.Id);
+            $("#D_UserName").val(rows.Account);
+            $("#D_AccountName").val(rows.AccountName);
+            $("#D_EffectiveTime_s").val(rows.StartTime);
+            $("#D_EffectiveTime_e").val(rows.EndTime);
+            $("#D_UserName").attr("disabled", true);  //添加disabled属性
+        });
+        $("#Add_User").click(function () {
+            $('#Save_btn').removeAttr("disabled"); //移除disabled属性
+            $('#D_UserName').removeAttr("disabled"); //移除disabled属性
+            //$(".Aut_Chk").prop("checked", false);
+            $("#D_Id").val("0");
+            $("#D_UserName").val("");
+            $("#D_AccountName").val("");
+            $("#D_EffectiveTime_s").val("");
+            $("#D_EffectiveTime_e").val("");
+            $("#BuyerAll").show();
+            $("#BuyerAll").dialog("open");
+        });
+        $("#Save_btn").click(function () {
+            var UserName = $("#D_UserName").val();
+            var AccountName = $("#D_AccountName").val();
+            var EffectiveTime_s = $("#D_EffectiveTime_s").val();
+            var EffectiveTime_e = $("#D_EffectiveTime_e").val();
+            if (AccountName == null || AccountName == "" || AccountName == undefined) {
+                $.messager.alert('Warning', '账户名不能为空');
+                return false;
+            }
+            if (EffectiveTime_s == null || EffectiveTime_s == "" || EffectiveTime_s == undefined) {
+                $.messager.alert('Warning', '开始时间不能为空');
+                return false;
+            }
+            if (EffectiveTime_e == null || EffectiveTime_e == "" || EffectiveTime_e == undefined) {
+                $.messager.alert('Warning', '结束时间不能为空');
+                return false;
+            }
+            var regAccount = new RegExp("^[0-9A-Za-z]*$");
+            if (!regAccount.test(UserName)) {
+                $.messager.alert('Warning', '帐号只能包含为数字和字母');
+                return false;
+            }
+
+            var postdata = {
+                Id: $("#D_Id").val(),
+                UserName: UserName,
+                AccountName: $("#D_AccountName").val(),
+                EffectiveTime_s: $("#D_EffectiveTime_s").val(),
+                EffectiveTime_e: $("#D_EffectiveTime_e").val(),
+                UpType: 4
+            }
+            $('#Save_btn').attr('disabled', "true"); //添加disabled属性
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/AddOrEditUser",
+                data: postdata,   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                }, complete: function () {
+                    $('#Save_btn').removeAttr("disabled"); //移除disabled属性
+                },
+                success: function (data) {
+                    if (data == "添加成功" || data == "修改成功") {
+                        document.location.reload();
+                    } else {
+                        $.messager.alert('Warning', '操作出错:' + data);
+                    }
+                }
+            });
+
+        });
+
+        $(document).on("click", ".Edit_Role", function () {
+            $('#Save_Role').removeAttr("disabled"); //移除disabled属性
+            var _id = $(this).attr("DataId");
+            $("#R_Id").val(_id);
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/RoleSetInfo",
+                data: { Id: _id },   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                },
+                success: function (data) {
+                    if (data == null) {
+                        $.messager.alert('Warning', '无查询权限');
+                    }
+                    else {
+                        var zTreeObj;
+                        var setting = {
+                            view: {
+                                showLine: true,
+                                selectedMulti: false
+                            },
+                            data: {
+                                simpleData: {
+                                    enable: true
+                                }
+                            },
+                            check: {
+                                enable: true,
+                            }
+                        }
+                        var zNodes = GetDate(data.Data);
+                        var t = $("#tree");
+                        zTreeObj = $.fn.zTree.init(t, setting, zNodes);
+                        zTreeObj.expandAll(false);
+                        $("#Rolediv").show();
+                        $("#Rolediv").dialog("open");
+                    }
+                }
+            });
+        });
+
+
+        $("#Save_Role").click(function () {
+            //获取选中的节点
+            var treeObj = $.fn.zTree.getZTreeObj("tree");
+            var nodes = treeObj.getCheckedNodes(true);
+            if (nodes == "") {
+                tishidecontens("请选择一个权限");
+                return;
+            }
+            var pids = "";
+            //获取选中节点的值
+            for (var i = 0 ; i < nodes.length; i++) {
+                if (nodes[i].id == "HT01") {
+                    continue;
+                }
+                pids += nodes[i].id + ",";
+            }
+            var postdata = {
+                Id: $("#R_Id").val(),
+                pids: pids,
+            }
+            $('#Save_Role').attr('disabled', "true"); //添加disabled属性
+            //ajax异步提交
+            $.ajax({
+                type: "POST",   //post提交方式默认是get
+                url: "/SysManager/RoleSave",
+                data: postdata,   //序列化
+                cache: false,
+                async: false,
+                error: function (request) {      // 设置表单提交出错
+                    $.messager.alert('Warning', '操作出错');
+                }, complete: function () {
+                    $('#Save_Role').removeAttr("disabled"); //移除disabled属性
+                },
+                success: function (data) {
+                    if (data == "操作成功") {
+                        document.location.reload();
+                    } else {
+                        $.messager.alert('Warning', '操作出错:' + data);
+                    }
+                }
+            });
+        });
+    });
+    //得到权限数据
+    function GetDate(data) {
+        if (data == null) {
+            return;
+        }
+        var zarray = new Array();
+        zarray.push({ name: "后台", id: "HT01" })
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].ParentTId == 0) {
+                data[i].ParentTId = "HT01";
+            }
+            zarray.push({
+                id: data[i].TId, name: data[i].Name, pId: data[i].ParentTId, open: true,
+                checked: data[i].IsChecked
+            });
+
+        }
+        return zarray;
+    }
+</script>

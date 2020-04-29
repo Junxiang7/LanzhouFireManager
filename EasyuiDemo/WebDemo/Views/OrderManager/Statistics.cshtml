@@ -1,0 +1,66 @@
+﻿@using WebDemo.Lib;
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "Statistics";
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/My97DatePickerBeta/WdatePicker.js")"></script>
+    <script src="@Url.Content("/Scripts/Statistics.js?v=3.51111531")"></script>
+}
+
+
+<style type="text/css">
+    .contenttable td {
+        padding: 3px;
+    }
+
+    .contenttable label {
+        cursor: pointer;
+    }
+
+    #D_Ip {
+        width: 200px;
+        height: 100px;
+        max-width: 200px;
+        max-height: 100px;
+        resize: none;
+    }
+</style>
+
+<div style="margin-left:10px;margin-top:15px;">
+    商户名称: <input type="text" value="" id="txt_CusTomer"  style="width:120px" />&nbsp;&nbsp;    编码: <input type="text" value="" id="txt_encodingOrder" style="width:120px" />
+    &nbsp;&nbsp;  订单时间：<input type="text" id="D_EffectiveTime_s" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />至<input type="text" id="D_EffectiveTime_e" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />
+    <input type="radio" name="radio" value="0" checked>每天总计
+    <input type="radio" name="radio" value="1" >根据商户总计
+    <input type="radio" name="radio" value="2">根据商户公斤数总计
+    &nbsp;&nbsp; <input type="button" value="查询" id="Q_Query" class="easyui-linkbutton" style="width:80px" />
+</div>
+
+<div style="margin-top:25px">
+    <table class="easyui-datagrid" id="DataList" style="width:100%; " data-options="singleSelect:true,collapsible:true,method:'post',rownumbers:true,pagination:true">
+        <thead>
+            <tr>
+                <th data-options="field:'QueryTime',width:fixWidth(0.16),align:'center'">时间</th>
+                <th data-options="field:'CusTomer',width:fixWidth(0.14),align:'center'">商户</th>
+                <th data-options="field:'EncodingOrder',width:fixWidth(0.14),align:'center'">编码</th>
+                <th data-options="field:'FirstWorkstation',width:fixWidth(0.14),align:'center'">第一工站</th>
+                <th data-options="field:'SecondWorkstation',width:fixWidth(0.14),align:'center'">第二工站</th>
+                <th data-options="field:'ThirdWorkstation',width:fixWidth(0.14),align:'center'">第三工站</th>
+                <th data-options="field:'FourthWorkstation',width:fixWidth(0.14),align:'center'">第四工站</th>
+                <th data-options="field:'ScrapNum',width:fixWidth(0.14),align:'center'">报废数量</th>
+                <th data-options="field:'Kg_1',width:fixWidth(0.06),align:'center'">1Kg</th>
+                <th data-options="field:'Kg_2',width:fixWidth(0.06),align:'center'">2Kg</th>
+                <th data-options="field:'Kg_3',width:fixWidth(0.06),align:'center'">3Kg</th>
+                <th data-options="field:'Kg_4',width:fixWidth(0.06),align:'center'">4Kg</th>
+                <th data-options="field:'Kg_5',width:fixWidth(0.06),align:'center'">5Kg</th>
+                <th data-options="field:'Kg_8',width:fixWidth(0.06),align:'center'">8Kg</th>
+                <th data-options="field:'Kg_20',width:fixWidth(0.06),align:'center'">20Kg</th>
+                <th data-options="field:'Kg_35',width:fixWidth(0.06),align:'center'">35Kg</th>
+                <th data-options="field:'Kg_50',width:fixWidth(0.06),align:'center'">50Kg</th>
+                <th data-options="field:'SumKG',width:fixWidth(0.10),align:'center'">合计(Kg)</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+

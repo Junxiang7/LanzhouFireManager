@@ -1,0 +1,131 @@
+﻿@using WebDemo.Lib;
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "OrderProcess";
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/OrderProcess.js?v=1.102598864444")"></script>
+    <script src="@Url.Content("/Scripts/layer-v2.2/layer.js")"></script>
+}
+<div style="text-align:center;margin-top:160px;">
+
+    <input type="button" value="批量入库" id="btn_BatchInput" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />
+    <input type="button" value="入库（第一工站）" id="btn_Input" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />
+    <input type="button" value="充粉（第二工站）" id="btn_Second" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />
+    <input type="button" value="组装充气（第三工站）" id="btn_Third" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />
+    <input type="button" value="贴标（第四工站）" id="btn_Fourth" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />
+    @*<input type="button" value="商品报废" id="btn_ScrapOrder" class="easyui-linkbutton" style="width:280px;height:70px;font-size:23px;font-weight:bold" />*@
+
+</div>
+<div id="BatchInfo" class="easyui-dialog" style="" data-options="closed:true,title:'批量商品录入',width:'680',height:'300' ,model:true,resizable:false">
+
+    <div style="margin-top:10px;font-size:18px;font-weight:300;margin-left:25px;">
+        <span id="BatchMsg"></span><input type="hidden" id="hid_bCusId" /><input type="hidden" id="hid_bEncodingOrder" /><input type="hidden" id="hid_bKgNum" /><input type="hidden" id="hid_bEncodeId" />
+    </div>
+    <div id="div_BatchInputInfo" style="margin-top:15px;font-size:15px;font-weight:200">
+
+        <table class="contenttable" style="width:580px; margin:auto;">
+            <tr>
+                <td>ID范围:</td>
+                <td>
+                    <input type='text' id='txt_SInputNum' placeholder="请输入13位ID" name='txt_SInputNum' onblur='EncodeTotal(this)' style="width:180px;height:27px" value="" />至
+                    <input type='text' id='txt_EInputNum' placeholder="请输入13位ID" name='txt_EInputNum' onblur='EncodeTotal(this)' style="width:180px;height:27px" value="" />
+                </td>
+                <td style="color:green;font-weight:bold"><span id="sp_bTotal"></span></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div style="text-align:center;margin-top:30px;"><input type='button' value='批量录入' class="easyui-linkbutton" style="width:80px" id='btnBatchInput' /></div>
+
+    <div style="text-align:center;margin-top:30px;"><span style="color:green;">*注：当前功能只针对批量入库贴标,单次最多导入ID数为25个</span></div>
+</div>
+
+<div id="InputInfo" class="easyui-dialog" style="" data-options="closed:true,title:'商品录入',width:'580',height:'200' ,model:true,resizable:false">
+    @*<div id="Inputhtml" style="margin-top:5px;font-size:18px;font-weight:300">
+            <table id="tab_Inputhtml" style="width:500px; margin:auto;border-width:1px;border-collapse: collapse"></table>
+        </div>*@
+    <div style="margin-top:10px;font-size:18px;font-weight:300;margin-left:25px;">
+        <span id="Msg"></span><input type="hidden" id="hid_CusId" /><input type="hidden" id="hid_EncodingOrder" /><input type="hidden" id="hid_KgNum" /><input type="hidden" id="hid_EncodeId" />
+    </div>
+    <div id="div_InputInfo" style="margin-top:15px;font-size:15px;font-weight:200">
+
+        <table class="contenttable" style="width:400px; margin:auto;">
+            <tr>
+                <td>ID:</td>
+                <td><input type='text' id='txt_InputNum' placeholder="请输入13位ID" name='txt_InputNum' style="width:200px;height:27px" value="" /></td>
+                <td>
+                    <select id="Q_OrderStatus" style="width:100px;height:27px">
+                        <option value="1001" selected="selected">充粉</option>
+                        <option value="1007">维修</option>
+                        <option value="1006">报废</option>
+                        <option value="1008">贴标</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="text-align:center;margin-top:30px;"><input type='button' value='录入' class="easyui-linkbutton" style="width:80px" id='btnInput' /></div>
+</div>
+
+<div id="SecondInfo" class="easyui-dialog" style="" data-options="closed:true,title:'等待充粉',width:'580',height:'200' ,model:true,resizable:false">
+    <div style="margin-top:10px;font-size:18px;font-weight:300;margin-left:25px;">
+        <span id="SecondMsg"></span>
+    </div>
+
+    <div id="div_SecondInfo" style="margin-top:15px;font-size:15px;font-weight:200">
+
+        <table class="contenttable" style="width:400px; margin:auto;">
+            <tr>
+                <td>ID:</td>
+                <td><input type="text" value="" id="txtSecond" style="width:200px;height:27px" placeholder="请输入13位ID" /></td>
+                <td>
+                    <select id="Q_OrderStatus_Second" style="width:100px;height:27px">
+                        <option value="1002">组装充气</option>
+                        <option value="1009">报废</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="text-align:center; margin-top:25px;"><input type='button' value='录入' class="easyui-linkbutton" style="width:80px" id='btnSecond' /></div>
+</div>
+
+
+<div id="ThirdInfo" class="easyui-dialog" style="" data-options="closed:true,title:'等待组装充气',width:'580',height:'200' ,model:true,resizable:false">
+    <div style="margin-top:10px;font-size:18px;font-weight:300;margin-left:25px;">
+        <span id="ThirdMsg"></span>
+    </div>
+    <div id="div_ThirdInfo" style="text-align:center; margin-top:15px;font-size:15px">
+        <table class="contenttable" style="width:400px; margin:auto;">
+            <tr>
+                <td>ID:</td>
+                <td><input type="text" value="" id="txtThird" style="width:200px;height:27px" placeholder="请输入13位ID" /></td>
+                <td>
+                    <select id="Q_OrderStatus_Third" style="width:100px;height:27px">
+                        <option value="1003">贴标</option>
+                        <option value="1009">报废</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <div style="text-align:center; margin-top:25px;"><input type='button' value='录入' class="easyui-linkbutton" style="width:80px" id='btnThird' /></div>
+</div>
+
+
+<div id="FourthInfo" class="easyui-dialog" style="" data-options="closed:true,title:'等待贴标',width:'580',height:'200' ,model:true,resizable:false">
+    <div style="margin-top:10px;font-size:18px;font-weight:300;margin-left:25px;">
+        <span id="FourthMsg"></span>
+    </div>
+    <div id="div_FourthInfo" style="text-align:center; margin-top:15px;font-size:15px">ID:&nbsp;&nbsp;<input type="text" value="" id="txtFourth" style="width:200px;height:27px" placeholder="请输入13位ID" /> </div>
+    <div style="text-align:center; margin-top:25px;"><input type='button' value='录入' class="easyui-linkbutton" style="width:80px" id='btnFourth' /></div>
+</div>
+
+@*<div id="ScrapInfo" class="easyui-dialog" style="" data-options="closed:true,title:'报废录入',width:'550',height:'150' ,model:true,resizable:false">
+        <div id="div_ScrapInfo" style="margin-top:15px;"></div>
+        <div style="text-align:center;margin-top:25px;"><input type='button' value='录入' class="easyui-linkbutton" style="width:80px" id='btnScrap' /></div>
+    </div>*@

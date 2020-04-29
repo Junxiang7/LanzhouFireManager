@@ -1,0 +1,78 @@
+﻿@using WebDemo.Models;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>欢迎使用甘肃兴陇消防灭火器维修充检系统</title>
+    <link href="~/Content/default.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+    <link href="~/Scripts/jquery-easyui/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery-easyui/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-easyui/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/outlook2.js"></script>
+
+    <script type="text/javascript">
+        var _menus = { "menus": @Html.Raw(ViewBag.UserMenus)};
+        //关闭登录窗口
+        function close() {
+            $('#w').window('close');
+        }
+        $(function () {
+            //
+            $('#editpass').click(function () {
+                $('#w').window('open');
+            });
+
+            $('#btnEp').click(function () {
+                serverLogin();
+            });
+            $('#loginOut').click(function () {
+                $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function (r) {
+                    if (r) {
+                        location.href = '/Home/LoginOut';
+                    }
+                });
+
+            });
+        });
+
+    </script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden;" scroll="no">  
+    <div region="north" split="true" border="false" style="overflow: hidden; height: 50px; background: #7f99be   repeat-x center 80%; line-height: 40px; color: #fff; font-family: Verdana, 微软雅黑,黑体">
+        <span style="float: right; padding-right: 20px;" class="head">  @(((AccountInfoModel)ViewBag.UserAccount).CurrentGreetings)&nbsp;: &nbsp; @(((AccountInfoModel)ViewBag.UserAccount).Account) &nbsp;&nbsp;欢迎您使用甘肃兴陇消防系统！ &nbsp;|&nbsp; <a href="#" id="loginOut">安全退出</a></span>
+        <span style="padding-left: 10px; font-size: 16px;">甘肃兴陇消防灭火器维修充检系统</span>
+    </div>
+    <div region="west" split="false" title="导航菜单" style="width: 180px;" id="west">
+        <div class="easyui-accordion" fit="true" border="false">
+            <!--  导航内容 -->
+        </div>
+    </div>
+    <div id="mainPanle" region="center" style="background: #eee; overflow-y: hidden">
+        <div id="tabs" class="easyui-tabs" fit="true" border="false">
+            <div title="欢迎使用" style="padding: 20px; overflow: hidden;" id="home">
+                <h1>欢迎使用甘肃兴陇消防灭火器维修充检系统</h1>
+                <h1 id="adminpwd"></h1>
+            </div>
+        </div>
+    </div>
+    <div region="south" split="false" style="height: 30px; background: #D2E0F2;">
+        <div class="footer">By 甘肃兴陇消防灭火器维修充检系统  0931-8555590</div>
+    </div>
+    <div id="mm" class="easyui-menu" style="width: 150px;">
+        <div id="mm-tabclose">关闭</div>
+        <div id="mm-tabcloseall">全部关闭</div>
+        <div id="mm-tabcloseother">除此之外全部关闭</div>
+        <div class="menu-sep"></div>
+        <div id="mm-tabcloseright">当前页右侧全部关闭</div>
+        <div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+        <div class="menu-sep"></div>
+        <div id="mm-exit">退出</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿@model WebDemo.Models.AccountInfoModel
+
+@{
+    ViewBag.Title = "AccountInfo";
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/AccountInfo.js?v=2.33")"></script>
+}
+<style type="text/css">
+    table.gridtable {
+        font-family: verdana,arial,sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+        table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+</style>
+
+
+<div style="text-align:center;margin-top:160px; margin-left:20px">
+
+
+    <table class="gridtable" style="width:60%">
+        <tr>
+            <th>账户</th>
+            <th>账户名称</th>
+            <th>生效时间</th>
+        </tr>
+        <tr>
+            <td>@Model.Account</td>
+            <td>@Model.AccountName</td>
+            <td>@Model.StartTime &nbsp;&nbsp; ---&nbsp;&nbsp;  @Model.EndTime</td>
+        </tr>
+        <tr>
+            <td colspan="3"><input value="修改密码" type="button" id="btn_pwd" class="easyui-linkbutton" style="width:80px" /></td>
+        </tr>
+    </table>
+</div>
+
+<div id="PwdInfo" class="easyui-dialog" style="" data-options="closed:true,title:'密码修改',width:'400',height:'150' ,model:true,resizable:false">
+    <table>
+        <tr>
+            <td>原密码:</td>
+            <td><input type="password" value='' style="width:210px;height:20px;" id='txt_oldpwd' /></td>
+        </tr>
+        <tr>
+            <td>新密码:</td>
+            <td><input type='password' value=''  style="width:210px;height:20px;" id='txt_newpwd' /></td>
+        </tr>
+        <tr>
+            <td>确认密码:</td>
+            <td><input type='password' value=''  style="width:210px;height:20px;" id='txt_anewpwd' /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type='button' value='修改' class="easyui-linkbutton" style="width:80px" id='btn_newpwd' /></td>
+        </tr>
+    </table>
+
+</div>
+

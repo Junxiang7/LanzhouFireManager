@@ -1,0 +1,72 @@
+﻿@using WebDemo.Lib;
+@using WebDemo.Models;
+@{
+    ViewBag.Title = "SelectOrder";
+}
+@section HeadScript{
+    <script src="@Url.Content("/Scripts/My97DatePickerBeta/WdatePicker.js")"></script>
+    <script src="@Url.Content("/Scripts/SelectOrder.js?v=1.2321")"></script>
+}
+<style type="text/css">
+    .contenttable td {
+        padding: 3px;
+    }
+
+    .contenttable label {
+        cursor: pointer;
+    }
+
+    #D_Ip {
+        width: 200px;
+        height: 100px;
+        max-width: 200px;
+        max-height: 100px;
+        resize: none;
+    }
+</style>
+
+<div style="margin-left:10px;margin-top:15px;">
+    产品ID：<input type="text" id="Q_ProductId" />   &nbsp;&nbsp;     订单编码：<input type="text" id="Q_EncodingOrder" />  &nbsp;&nbsp;    订单状态：
+    <select id="Q_OrderStatus">
+        <option value="0" selected="selected">全部订单</option>
+        <option value="1001">已经入库，等待充粉</option>
+        <option value="1002">已经充粉，等待组装</option>
+        <option value="1003">已经组装，等待贴标</option>
+        <option value="1004">已经贴标，完成出库</option>
+        <option value="1006">已经入库，订单报废</option>
+        <option value="1007">已经入库，等待组装</option>
+        <option value="1008">已经入库，等待贴标</option>
+    </select>
+    &nbsp;&nbsp;  订单时间：<input type="text" id="D_EffectiveTime_s" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />至<input type="text" id="D_EffectiveTime_s" class="Wdate" onFocus="WdatePicker({isShowWeek:true})" />
+    &nbsp;&nbsp; <input type="button" value="查询" id="Q_Query" class="easyui-linkbutton" style="width:80px" />
+</div>
+<div style="margin-top:25px">
+    <table class="easyui-datagrid" id="DataList" style="width:100%; " data-options="singleSelect:true,collapsible:true,url:'/OrderManager/WorkstationOrder',method:'post',rownumbers:true,pagination:true">
+        <thead>
+            <tr>
+                <th data-options="field:'CreateTime',width:fixWidth(0.15),align:'center'">创建时间</th>
+                <th data-options="field:'ProductId',width:fixWidth(0.15),align:'center'">产品ID</th>
+                <th data-options="field:'EncodingOrder',width:fixWidth(0.14),align:'center'">订单编码</th>
+                <th data-options="field:'CusCompany',width:fixWidth(0.15),align:'center'">客户公司名称</th>
+                <th data-options="field:'KgNum',width:fixWidth(0.13),align:'center'">公斤数</th>
+                <th data-options="field:'OrderStatusTest',width:fixWidth(0.1),align:'center'">状态文本</th>
+                <th data-options="field:'OrderId',width:fixWidth(0.15),align:'center',formatter:EditData">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="CusInfo" class="easyui-dialog" style="" data-options="closed:true,title:'客户信息',width:'550',height:'150' ,model:true,resizable:false">
+
+</div>
+
+<div id="LogInfo" class="easyui-dialog" style="" data-options="closed:true,title:'操作日志',width:'550',height:'150' ,model:true,resizable:false">
+
+</div>
+
+<div id="EditStatus" class="easyui-dialog" style="" data-options="closed:true,title:'修改订单状态',width:'550',height:'150' ,model:true,resizable:false">
+
+</div>
+
+
+
